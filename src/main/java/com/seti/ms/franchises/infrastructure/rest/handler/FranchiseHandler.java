@@ -50,4 +50,13 @@ public class FranchiseHandler {
                         ServerResponse.ok().bodyValue(branch)
                 );
     }
+
+    public Mono<ServerResponse> deleteProductFromBranch(ServerRequest request) {
+        String franchiseId = request.pathVariable("franchiseId");
+        String branchName = request.pathVariable("branchName");
+        String productName = request.pathVariable("productName");
+
+        return franchiseService.deleteProductFromBranch(franchiseId, branchName, productName)
+                .flatMap(updatedBranch -> ServerResponse.ok().bodyValue(updatedBranch));
+    }
 }

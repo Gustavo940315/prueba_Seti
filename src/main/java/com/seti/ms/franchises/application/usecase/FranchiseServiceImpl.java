@@ -63,4 +63,35 @@ public class FranchiseServiceImpl implements IFranchiseService {
 
     }
 
+    @Override
+    public Mono<Branch> deleteProductFromBranch(String franchiseId, String branchName, String productName) {
+        return franchiseRepository.getFranchiseById(franchiseId)
+                .flatMap(franchise -> {
+                    List<Branch> branches = franchise.getBranches();
+
+                    Branch branchToUpdate = branches.stream()
+                            .filter(b -> b.getName().equalsIgnoreCase(branchName))
+                            .findFirst()
+                            .orElseThrow(() -> new MyHandleException("La Sucursal" + branchName + " no fue encontrada"));
+
+                    List<Product> products = branchToUpdate.getProducts();
+
+                    if (Objects.isNull(products) || products.isEmpty()) {
+                        throw new MyHandleException("La sucursal no tiene productos");
+                    }
+
+                    boolean removedProduct = products.removeIf(p -> p.getName().equalsIgnoreCase(productName));
+
+                    if (!removedProduct) {
+                        throw new MyHandleException("Producto " + productName + " no encontrado en la sucursal");
+                    }
+
+                    branchToUpdate.setProducts(products);
+                    franchise.setBranches(branches);
+
+                    return franchiseRepository.saveFranchise(franchise)
+                            .thenReturn(branchToUpdate);
+                });
+    }
+
 }
