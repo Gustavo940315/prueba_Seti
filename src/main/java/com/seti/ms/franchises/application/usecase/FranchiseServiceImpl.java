@@ -141,5 +141,15 @@ public class FranchiseServiceImpl implements IFranchiseService {
                 );
     }
 
+    @Override
+    public Mono<Franchise> updateFranchiseName(String franchiseId, String newName) {
+        return franchiseRepository.getFranchiseById(franchiseId)
+                .map(franchise -> {
+                    franchise.setName(newName);
+                    return franchise;
+                })
+                .flatMap(franchiseRepository::saveFranchise);
+    }
+
 
 }
