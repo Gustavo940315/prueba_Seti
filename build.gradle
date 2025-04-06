@@ -1,0 +1,50 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.seti.ms.franchises'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	awsSdkVersion = '2.20.134'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	// AWS SDK v2 para DynamoDB
+	implementation "software.amazon.awssdk:dynamodb:$awsSdkVersion"
+	implementation "software.amazon.awssdk:auth:$awsSdkVersion"
+	implementation "software.amazon.awssdk:regions:$awsSdkVersion"
+	implementation "software.amazon.awssdk:core:$awsSdkVersion"
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	// Para leer @ConfigurationProperties
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	//validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-parameters"
+}
