@@ -69,30 +69,18 @@ public class FranchiseServiceImpl implements IFranchiseService {
     public Mono<Branch> deleteProductFromBranch(String franchiseId, String branchName, String productName) {
         return franchiseRepository.getFranchiseById(franchiseId)
                 .flatMap(franchise -> {
-                    List<Branch> branches = franchise.getBranches();
+                    Branch branch = getBranchWithProductsOrThrow(franchise, branchName);
 
-                    Branch branchToUpdate = branches.stream()
-                            .filter(b -> b.getName().equalsIgnoreCase(branchName))
-                            .findFirst()
-                            .orElseThrow(() -> new MyHandleException("La Sucursal" + branchName + " no fue encontrada"));
-
-                    List<Product> products = branchToUpdate.getProducts();
-
-                    if (Objects.isNull(products) || products.isEmpty()) {
-                        throw new MyHandleException("La sucursal no tiene productos");
-                    }
-
-                    boolean removedProduct = products.removeIf(p -> p.getName().equalsIgnoreCase(productName));
+                    boolean removedProduct = branch.getProducts().removeIf(
+                            p -> p.getName().equalsIgnoreCase(productName)
+                    );
 
                     if (!removedProduct) {
                         throw new MyHandleException("Producto " + productName + " no encontrado en la sucursal");
                     }
 
-                    branchToUpdate.setProducts(products);
-                    franchise.setBranches(branches);
-
                     return franchiseRepository.saveFranchise(franchise)
-                            .thenReturn(branchToUpdate);
+                            .thenReturn(branch);
                 });
     }
 
@@ -100,22 +88,8 @@ public class FranchiseServiceImpl implements IFranchiseService {
     public Mono<Product> updateProductStock(String franchiseId, String branchName, String productName, int newStock) {
         return franchiseRepository.getFranchiseById(franchiseId)
                 .flatMap(franchise -> {
-                    List<Branch> branches = franchise.getBranches();
-
-                    Branch branch = branches.stream()
-                            .filter(b -> b.getName().equalsIgnoreCase(branchName))
-                            .findFirst()
-                            .orElseThrow(() -> new MyHandleException("La Sucursal" + branchName + " no fue encontrada"));
-
-                    List<Product> products = branch.getProducts();
-                    if (Objects.isNull(products) || products.isEmpty()) {
-                        throw new MyHandleException("La sucursal no tiene productos");
-                    }
-
-                    Product product = products.stream()
-                            .filter(p -> p.getName().equalsIgnoreCase(productName))
-                            .findFirst()
-                            .orElseThrow(() -> new MyHandleException("El producto " + productName + " no fue encontrado"));
+                    Branch branch = getBranchWithProductsOrThrow(franchise, branchName);
+                    Product product = getProductOrThrow(branch, productName);
 
                     product.setStock(newStock);
 
@@ -173,5 +147,24 @@ public class FranchiseServiceImpl implements IFranchiseService {
                 );
     }
 
+    private Branch getBranchWithProductsOrThrow(Franchise franchise, String branchName) {
+        return franchise.getBranches().stream()
+                .filter(b -> b.getName().equalsIgnoreCase(branchName))
+                .findFirst()
+                .map(branch -> {
+                    if (Objects.isNull(branch.getProducts()) || branch.getProducts().isEmpty()) {
+                        throw new MyHandleException("La sucursal no tiene productos");
+                    }
+                    return branch;
+                })
+                .orElseThrow(() -> new MyHandleException("La Sucursal " + branchName + " no fue encontrada"));
+    }
+
+    private Product getProductOrThrow(Branch branch, String productName) {
+        return branch.getProducts().stream()
+                .filter(p -> p.getName().equalsIgnoreCase(productName))
+                .findFirst()
+                .orElseThrow(() -> new MyHandleException("El producto " + productName + " no fue encontrado"));
+    }
 
 }
