@@ -10,8 +10,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-
 @Component
 public class FranchiseHandler {
 
@@ -32,9 +30,7 @@ public class FranchiseHandler {
         return request.bodyToMono(Franchise.class)
                 .flatMap(franchiseService::saveFranchise)
                 .flatMap(savedFranchise -> ServerResponse
-                        .created(URI.create("/franchises/v1" + savedFranchise.getId()))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(savedFranchise)
+                        .ok().bodyValue(savedFranchise)
                 );
     }
 
@@ -58,5 +54,17 @@ public class FranchiseHandler {
 
         return franchiseService.deleteProductFromBranch(franchiseId, branchName, productName)
                 .flatMap(updatedBranch -> ServerResponse.ok().bodyValue(updatedBranch));
+    }
+
+    public Mono<ServerResponse> updateProductStock(ServerRequest request) {
+        String franchiseId = request.pathVariable("franchiseId");
+        String branchName = request.pathVariable("branchName");
+        String productName = request.pathVariable("productName");
+
+        return request.bodyToMono(Product.class)
+                .flatMap(product ->
+                        franchiseService.updateProductStock(franchiseId, branchName, productName, product.getStock())
+                )
+                .flatMap(updatedProduct -> ServerResponse.ok().bodyValue(updatedProduct));
     }
 }

@@ -11,6 +11,7 @@ public interface IFranchiseService {
     Mono<Franchise> saveFranchise(Franchise franchise);
     Mono<Branch> addProductToBranch(String franchiseId, String branchName, Product product);
     Mono<Branch> deleteProductFromBranch(String franchiseId, String branchName, String productName);
+    Mono<Product> updateProductStock(String franchiseId, String branchName, String productName, int newStock);
 
 
 }

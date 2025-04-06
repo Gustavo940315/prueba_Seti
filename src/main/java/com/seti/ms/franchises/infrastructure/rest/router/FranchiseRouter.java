@@ -18,6 +18,7 @@ public class FranchiseRouter {
         return route(GET("/franchises/v1/{id}"), handler::getFranchiseForById)
                 .andRoute(POST("/franchises/v1"), handler::saveFranchise)
                 .andRoute(POST("/franchises/v1/{franchiseId}/branches/{branchName}/products"), handler::addProductToBranch)
-                .andRoute(DELETE("/franchises/v1/{franchiseId}/branches/{branchName}/products/{productName}"), handler::deleteProductFromBranch);
+                .andRoute(DELETE("/franchises/v1/{franchiseId}/branches/{branchName}/products/{productName}"), handler::deleteProductFromBranch)
+                .andRoute(PUT("/franchises/v1/{franchiseId}/branches/{branchName}/products/{productName}/stock"), handler::updateProductStock);
     }
 }
