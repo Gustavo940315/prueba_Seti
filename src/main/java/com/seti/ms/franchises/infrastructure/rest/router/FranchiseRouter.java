@@ -17,6 +17,7 @@ public class FranchiseRouter {
     @Bean
     public RouterFunction<ServerResponse> routes(FranchiseHandler handler){
         return route(GET("/franchises/v1/{id}"), handler::getFranchiseForById)
-                .andRoute(POST("/franchises/v1"), handler::saveFranchise);
+                .andRoute(POST("/franchises/v1"), handler::saveFranchise)
+                .andRoute(POST("/franchises/v1/{franchiseId}/branches/{branchName}/products"), handler::addProductToBranch);
     }
 }

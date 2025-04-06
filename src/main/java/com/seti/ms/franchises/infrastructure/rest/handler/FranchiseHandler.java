@@ -2,6 +2,7 @@ package com.seti.ms.franchises.infrastructure.rest.handler;
 
 import com.seti.ms.franchises.application.port.in.IFranchiseService;
 import com.seti.ms.franchises.domain.model.Franchise;
+import com.seti.ms.franchises.domain.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,19 @@ public class FranchiseHandler {
                         .created(URI.create("/franchises/v1" + savedFranchise.getId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(savedFranchise)
+                );
+    }
+
+    public Mono<ServerResponse> addProductToBranch(ServerRequest request) {
+        String franchiseId = request.pathVariable("franchiseId");
+        String branchName = request.pathVariable("branchName");
+
+        return request.bodyToMono(Product.class)
+                .flatMap(product ->
+                        franchiseService.addProductToBranch(franchiseId, branchName, product)
+                )
+                .flatMap(branch ->
+                        ServerResponse.ok().bodyValue(branch)
                 );
     }
 }
