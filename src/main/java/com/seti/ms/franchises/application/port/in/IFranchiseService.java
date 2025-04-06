@@ -16,5 +16,7 @@ public interface IFranchiseService {
     Mono<Product> updateProductStock(String franchiseId, String branchName, String productName, int newStock);
     Mono<List<Branch>> getTopProductsByBranch(String franchiseId);
     Mono<Franchise> updateFranchiseName(String franchiseId, String newName);
+    Mono<Branch> updateBranchName(String franchiseId, String branchName, String newBranchName);
+
 
 }

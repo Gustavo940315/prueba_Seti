@@ -1,6 +1,7 @@
 package com.seti.ms.franchises.infrastructure.rest.handler;
 
 import com.seti.ms.franchises.application.port.in.IFranchiseService;
+import com.seti.ms.franchises.domain.model.Branch;
 import com.seti.ms.franchises.domain.model.Franchise;
 import com.seti.ms.franchises.domain.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +82,14 @@ public class FranchiseHandler {
         return request.bodyToMono(Franchise.class)
                 .flatMap(body -> franchiseService.updateFranchiseName(franchiseId, body.getName()))
                 .flatMap(updated -> ServerResponse.ok().bodyValue(updated));
+    }
+
+    public Mono<ServerResponse> updateBranchName(ServerRequest request) {
+        String franchiseId = request.pathVariable("franchiseId");
+        String branchName = request.pathVariable("branchName");
+
+        return request.bodyToMono(Branch.class)
+                .flatMap(body -> franchiseService.updateBranchName(franchiseId, branchName, body.getName()))
+                .flatMap(updatedBranch -> ServerResponse.ok().bodyValue(updatedBranch));
     }
 }

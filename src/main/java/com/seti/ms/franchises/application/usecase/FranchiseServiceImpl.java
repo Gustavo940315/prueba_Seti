@@ -151,5 +151,27 @@ public class FranchiseServiceImpl implements IFranchiseService {
                 .flatMap(franchiseRepository::saveFranchise);
     }
 
+    @Override
+    public Mono<Branch> updateBranchName(String franchiseId, String branchName, String newBranchName) {
+        return franchiseRepository.getFranchiseById(franchiseId)
+                .map(franchise -> {
+                    Branch branch = franchise.getBranches().stream()
+                            .filter(b -> b.getName().equalsIgnoreCase(branchName))
+                            .findFirst()
+                            .orElseThrow(() -> new MyHandleException("La Sucursal " + branchName + " no fue encontrada"));
+
+                    branch.setName(newBranchName);
+
+                    return franchise;
+                })
+                .flatMap(franchiseRepository::saveFranchise)
+                .map(franchise ->
+                        franchise.getBranches().stream()
+                                .filter(b -> b.getName().equalsIgnoreCase(newBranchName))
+                                .findFirst()
+                                .orElseThrow(() -> new MyHandleException("La Sucursal no fue actualizada, no encontrada"))
+                );
+    }
+
 
 }
