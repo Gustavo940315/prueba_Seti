@@ -67,4 +67,11 @@ public class FranchiseHandler {
                 )
                 .flatMap(updatedProduct -> ServerResponse.ok().bodyValue(updatedProduct));
     }
+
+    public Mono<ServerResponse> getTopProductsByBranch(ServerRequest request) {
+        String franchiseId = request.pathVariable("franchiseId");
+
+        return franchiseService.getTopProductsByBranch(franchiseId)
+                .flatMap(branches -> ServerResponse.ok().bodyValue(branches));
+    }
 }

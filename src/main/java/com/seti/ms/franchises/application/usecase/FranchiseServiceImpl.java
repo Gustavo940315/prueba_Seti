@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -120,6 +122,23 @@ public class FranchiseServiceImpl implements IFranchiseService {
                     return franchiseRepository.saveFranchise(franchise)
                             .thenReturn(product);
                 });
+    }
+
+    @Override
+    public Mono<List<Branch>> getTopProductsByBranch(String franchiseId) {
+        return franchiseRepository.getFranchiseById(franchiseId)
+                .map(franchise -> franchise.getBranches().stream()
+                        .filter(branch -> branch.getProducts() != null && !branch.getProducts().isEmpty())
+                        .map(branch -> {
+                            Product topProduct = branch.getProducts().stream()
+                                    .max(Comparator.comparingInt(Product::getStock))
+                                    .orElse(null);
+
+                            branch.setProducts(List.of(topProduct));
+                            return branch;
+                        })
+                        .collect(Collectors.toList())
+                );
     }
 
 
