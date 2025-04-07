@@ -1,0 +1,554 @@
+{
+	"info": {
+		"_postman_id": "ea3050aa-665a-4caa-8bfd-2a230da7ec98",
+		"name": "Prueba Seti",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31188731"
+	},
+	"item": [
+		{
+			"name": "Local",
+			"item": [
+				{
+					"name": "getFranchiseForById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1/franchise-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTopProductsByBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1/franchise-002/top-stock-products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-002",
+								"top-stock-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addProductToBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"franchise-001\",\n    \"name\": \"Super Tiendas\",\n    \"branches\": [\n      {\n        \"name\": \"Sucursal 1\",\n        \"products\": [\n          { \"name\": \"Café\", \"stock\": 50 },\n          { \"name\": \"Pan\", \"stock\": 100 }\n        ]\n      }\n    ]\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addProductToBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Café Premium\",\r\n  \"stock\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1/franchise-001/branches/Sucursal 1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal 1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProductStock",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"stock\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1/franchise-001/branches/Sucursal%201/products/Pan/stock",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal%201",
+								"products",
+								"Pan",
+								"stock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateFranchiseName",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Super D1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1/franchise-001/update-name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"update-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBranchName",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Sucursal 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1/franchise-001/branches/Sucursal%202/update-name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal%202",
+								"update-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProductFromBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/franchises/v1/franchise-001/branches/Sucursal%201/products/Caf%C3%A9%20Premium",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal%201",
+								"products",
+								"Caf%C3%A9%20Premium"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Production",
+			"item": [
+				{
+					"name": "getFranchiseForById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1/franchise-001",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTopProductsByBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1/franchise-002/top-stock-products",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-002",
+								"top-stock-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addProductToBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"franchise-001\",\n    \"name\": \"Super Tiendas\",\n    \"branches\": [\n      {\n        \"name\": \"Sucursal 1\",\n        \"products\": [\n          { \"name\": \"Café\", \"stock\": 50 },\n          { \"name\": \"Pan\", \"stock\": 100 }\n        ]\n      }\n    ]\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addProductToBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Café Premium\",\r\n  \"stock\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1/franchise-001/branches/Sucursal 1/products",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal 1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProductStock",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"stock\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1/franchise-001/branches/Sucursal%201/products/Pan/stock",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal%201",
+								"products",
+								"Pan",
+								"stock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateFranchiseName",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Super D1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1/franchise-001/update-name",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"update-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateBranchName",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Sucursal 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1/franchise-001/branches/Sucursal%202/update-name",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal%202",
+								"update-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProductFromBranch",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://54.226.216.15:8080/franchises/v1/franchise-001/branches/Sucursal%201/products/Caf%C3%A9%20Premium",
+							"protocol": "http",
+							"host": [
+								"54",
+								"226",
+								"216",
+								"15"
+							],
+							"port": "8080",
+							"path": [
+								"franchises",
+								"v1",
+								"franchise-001",
+								"branches",
+								"Sucursal%201",
+								"products",
+								"Caf%C3%A9%20Premium"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
