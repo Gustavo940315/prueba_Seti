@@ -1,7 +1,6 @@
 package com.seti.ms.franchises.infrastructure.rest.router;
 
 import com.seti.ms.franchises.infrastructure.rest.handler.FranchiseHandler;
-import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;

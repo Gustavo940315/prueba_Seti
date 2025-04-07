@@ -17,6 +17,10 @@ public class FranchiseHandler {
     @Autowired
     private IFranchiseService franchiseService;
 
+    public FranchiseHandler(IFranchiseService franchiseService) {
+        this.franchiseService = franchiseService;
+    }
+
     public Mono<ServerResponse> getFranchiseForById(ServerRequest request) {
 
         return ServerResponse.ok()
